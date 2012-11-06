@@ -21,6 +21,8 @@ Color explanation:
 * Red are enemies (EntityEnemies)
 * Black is a wall
 
+The different blue lines are tested in the pixel collison map, when a field is a wall or an entity their is no line of sight!
+
 ### Example
 The upper soldier is currentSodier (This a reference on this soldier).
 The lower enemy is the currentEnemy (This a reference on this enemy).
