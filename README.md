@@ -54,5 +54,8 @@ Thats how it look likes ...
 
 
 ## Changelog
+### v0.2.0
+* Doesn't copy the pixel collision map anymore, adds the entities and after the check it erases them
+
 ### v0.1.0
-* First vommit
+* First commit

@@ -2,7 +2,7 @@
  * line-of-sight
  * https://github.com/hurik/impact-line-of-sight
  *
- * v0.1.0
+ * v0.2.0
  *
  * Andreas Giemza
  * andreas@giemza.net
@@ -57,14 +57,9 @@ ig.CollisionMap.inject({
 	},
 
 	traceLos: function( x, y, vx, vy, objectWidth, objectHeight, entityTypesArray, ignoreEntityArray ) {
-		// Copy the losMap
-		var tempLosMap = new Array();
-		for(var i = 0; i < this.losMap.length; i++)
-		{
-		    tempLosMap.push(this.losMap[i].slice());
-		}
-
 		var ignoreThisEntity;
+
+		// Add the entity types to the pixel collision map
 
 		// Go through the entityTypesArray
 		for (i = 0; i < entityTypesArray.length; i++) {
@@ -84,7 +79,7 @@ ig.CollisionMap.inject({
 				if (!ignoreThisEntity) {
 					for(var los_y = 0; los_y < entities[j].size.y; los_y++) {
 						for(var los_x = 0; los_x < entities[j].size.x; los_x++) {
-							tempLosMap[(entities[j].pos.y).floor() + los_y][(entities[j].pos.x).floor() + los_x] = 2;
+							this.losMap[(entities[j].pos.y).floor() + los_y][(entities[j].pos.x).floor() + los_x] = 2;
 						}
 					}
 				}
@@ -92,30 +87,55 @@ ig.CollisionMap.inject({
 		}
 
 		// check if we have a free line of sight ...
-		var ret = this._traceLosStep(tempLosMap, x, y, x + vx, y + vy);
-		if (ret == true) {
-			return true;
+		var ret = false;
+		
+		if (this._traceLosStep(x, y, x + vx, y + vy)) {
+			ret = true;
 		}
 
-		ret = this._traceLosStep(tempLosMap, x + objectWidth, y, x + vx + objectWidth, y + vy);
-		if (ret == true) {
-			return true;
+		if (this._traceLosStep(x + objectWidth, y, x + vx + objectWidth, y + vy)) {
+			ret = true;
 		}
 
-		ret = this._traceLosStep(tempLosMap, x, y + objectHeight, x + vx, y + vy + objectHeight);
-		if (ret == true) {
-			return true;
+		if (this._traceLosStep(x, y + objectHeight, x + vx, y + vy + objectHeight)) {
+			ret = true;
 		}
 
-		ret = this._traceLosStep(tempLosMap, x + objectWidth, y + objectHeight, x + vx + objectWidth, y + vy + objectHeight);
-		if (ret == true) {
-			return true;
+		if (this._traceLosStep(x + objectWidth, y + objectHeight, x + vx + objectWidth, y + vy + objectHeight)) {
+			ret = true;
 		}
 
-		return false;
+		// Erase the entity types from the pixel collision map
+
+		// Go through the entityTypesArray
+		for (i = 0; i < entityTypesArray.length; i++) {
+			var entities = ig.game.getEntitiesByType(entityTypesArray[i]);
+			
+			// Get every entity of this type
+			for (j = 0; j < entities.length; j++) {
+				ignoreThisEntity = false;
+
+				// Check if it is excludes from the line of sight
+				for (k = 0; k < ignoreEntityArray.length; k++) {
+					if (ignoreEntityArray[k].id == entities[j].id)
+						ignoreThisEntity = true;
+				}
+
+				// Add the entity to the pixel collision map
+				if (!ignoreThisEntity) {
+					for(var los_y = 0; los_y < entities[j].size.y; los_y++) {
+						for(var los_x = 0; los_x < entities[j].size.x; los_x++) {
+							this.losMap[(entities[j].pos.y).floor() + los_y][(entities[j].pos.x).floor() + los_x] = 0;
+						}
+					}
+				}
+			}
+		}	
+
+		return ret;
 	},
 
-	_traceLosStep: function(tempLosMap, x0, y0, x1, y1) {
+	_traceLosStep: function(x0, y0, x1, y1) {
 		x0 = x0.floor();
 		x1 = x1.floor();
 		y0 = y0.floor();
@@ -128,7 +148,7 @@ ig.CollisionMap.inject({
 		var err = (dx > dy ? dx : -dy) / 2;
 
 		while(true) {
-			if (tempLosMap[y0][x0] != 0) {
+			if (this.losMap[y0][x0] != 0) {
 				return true;
 			}
 
@@ -151,7 +171,6 @@ ig.CollisionMap.inject({
 
 		return false;
 	}
-
 });
 
 });
