@@ -2,7 +2,7 @@
  * line-of-sight
  * https://github.com/hurik/impact-line-of-sight
  *
- * v0.2.1
+ * v0.2.2
  *
  * Andreas Giemza
  * andreas@giemza.net
@@ -42,7 +42,7 @@ ig.CollisionMap.inject({
 			}
 		}
 
-		// Copy the collision map in this pixel based collision map
+		// Copy the collision map in this pixel based map
 		for(var y = 0; y < this.height; y++) {
 			for(var x = 0; x < this.width; x++) {
 				if(this.data[y][x] == 1) {
@@ -65,8 +65,12 @@ ig.CollisionMap.inject({
 			ignoreEntityArray = [];
 		}
 
+		objectWidth = objectWidth - 1;
+		objectHeight = objectHeight - 1;
+
 		var ignoreThisEntity;
 
+		// Add the entity types to the pixel collision map
 		// Go through the entityTypesArray
 		for(i = 0; i < entityTypesArray.length; i++) {
 			var entities = ig.game.getEntitiesByType(entityTypesArray[i]);
@@ -75,12 +79,12 @@ ig.CollisionMap.inject({
 			for(j = 0; j < entities.length; j++) {
 				ignoreThisEntity = false;
 
-				// Check if the current enty is excludes from the line of sight check
+				// Check if it is excludes from the line of sight
 				for(k = 0; k < ignoreEntityArray.length; k++) {
 					if(ignoreEntityArray[k].id == entities[j].id) ignoreThisEntity = true;
 				}
 
-				// Add the entity to the pixel based collision map
+				// Add the entity to the pixel collision map
 				if(!ignoreThisEntity) {
 					for(var los_y = 0; los_y < entities[j].size.y; los_y++) {
 						for(var los_x = 0; los_x < entities[j].size.x; los_x++) {
@@ -110,6 +114,7 @@ ig.CollisionMap.inject({
 			ret = true;
 		}
 
+		// Erase the entity types from the pixel collision map
 		// Go through the entityTypesArray
 		for(i = 0; i < entityTypesArray.length; i++) {
 			var entities = ig.game.getEntitiesByType(entityTypesArray[i]);
@@ -118,12 +123,12 @@ ig.CollisionMap.inject({
 			for(j = 0; j < entities.length; j++) {
 				ignoreThisEntity = false;
 
-				// Check if the current enty is excludes from the line of sight check
+				// Check if it is excludes from the line of sight
 				for(k = 0; k < ignoreEntityArray.length; k++) {
 					if(ignoreEntityArray[k].id == entities[j].id) ignoreThisEntity = true;
 				}
 
-				// Erase this entity to the pixel collision map
+				// Add the entity to the pixel collision map
 				if(!ignoreThisEntity) {
 					for(var los_y = 0; los_y < entities[j].size.y; los_y++) {
 						for(var los_x = 0; los_x < entities[j].size.x; los_x++) {
