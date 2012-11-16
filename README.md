@@ -10,13 +10,13 @@ This plugin for the [Impact Game Engine](http://impactjs.com/) adds line of sigh
 
 ## How it works
 #### init
-* When a collision map is loaded, the plugin creates an pixel based collision map and adds every wall to it.
+* When a collision map is loaded, the plugin creates an pixel based collision map and adds the walls to it.
 
 #### traceLos
 * When you call the traceLos function it adds the entitiy types you want to the pixel based collision map.
 * Then it uses the bresenham's line algorithm to check if the "lines" from the corners of the trace boxes are free in the pixel based collision map.
 * After that it erases all the added entities from the pixel based collision map.
-* And retuns true when there was an collision, and when not false.
+* And retuns true when there was an collision and when not false.
 
 ## The function
 ```
@@ -42,7 +42,6 @@ traceLos( x, y, vx, vy, objectWidth, objectHeight, entityTypesArray, ignoreEntit
 * The upper green soldier is currentSodier (This a reference on this soldier).
 * The lower red enemy is the currentEnemy (This a reference on this enemy).
 
-#### Code example
 ```
 	var dx = currentEnemy.pos.x - currentSodier.pos.x;
 	var dy = currentEnemy.pos.y - currentSodier.pos.y;
@@ -66,8 +65,11 @@ That is how the pixel based collision map look like for the example.
 
 
 ## Changelog
+#### v0.2.3
+* Fixed the error when the check was outside the map
+
 #### v0.2.2
-* fixed bug with objectWidth and objectHeight
+* Fixed bug with objectWidth and objectHeight
 
 #### v0.2.1
 * objectWidth and objectHeight can be null now, without error

@@ -2,7 +2,7 @@
  * line-of-sight
  * https://github.com/hurik/impact-line-of-sight
  *
- * v0.2.2
+ * v0.2.3
  *
  * Andreas Giemza
  * andreas@giemza.net
@@ -22,27 +22,29 @@ ig.module(
 
 ig.CollisionMap.inject({
 	losMap: null,
+	losHeight: 0,
+	losWidth: 0,
 
-	// When am map is loaded, create the pixel based collision map
+	// When a map is loaded, create the pixel based collision map
 	init: function(tilesize, data, tiledef) {
 		this.parent(tilesize, data, tiledef);
 
 		// Get them map size in pixels
-		var height = this.height * this.tilesize;
-		var width = this.width * this.tilesize;
+		this.losHeight = this.height * this.tilesize;
+		this.losWidth = this.width * this.tilesize;
 
-		// Create an empty array
-		this.losMap = new Array(height);
+		// Create the empty array for the pixel based collision map
+		this.losMap = new Array(this.losHeight);
 
-		for(var y = 0; y < height; y++) {
-			this.losMap[y] = new Array(width);
+		for(var y = 0; y < this.losHeight; y++) {
+			this.losMap[y] = new Array(this.losWidth);
 
-			for(var x = 0; x < width; x++) {
+			for(var x = 0; x < this.losWidth; x++) {
 				this.losMap[y][x] = 0;
 			}
 		}
 
-		// Copy the collision map in this pixel based map
+		// Copy the collision map in the pixel based collision map
 		for(var y = 0; y < this.height; y++) {
 			for(var x = 0; x < this.width; x++) {
 				if(this.data[y][x] == 1) {
@@ -70,7 +72,7 @@ ig.CollisionMap.inject({
 
 		var ignoreThisEntity;
 
-		// Add the entity types to the pixel collision map
+		// Add the entity types to the pixel based collision map
 		// Go through the entityTypesArray
 		for(i = 0; i < entityTypesArray.length; i++) {
 			var entities = ig.game.getEntitiesByType(entityTypesArray[i]);
@@ -79,7 +81,7 @@ ig.CollisionMap.inject({
 			for(j = 0; j < entities.length; j++) {
 				ignoreThisEntity = false;
 
-				// Check if it is excludes from the line of sight
+				// Check if this entity is excluded from the line of sight check
 				for(k = 0; k < ignoreEntityArray.length; k++) {
 					if(ignoreEntityArray[k].id == entities[j].id) ignoreThisEntity = true;
 				}
@@ -114,7 +116,7 @@ ig.CollisionMap.inject({
 			ret = true;
 		}
 
-		// Erase the entity types from the pixel collision map
+		// Erase the entity types from the pixel based collision map
 		// Go through the entityTypesArray
 		for(i = 0; i < entityTypesArray.length; i++) {
 			var entities = ig.game.getEntitiesByType(entityTypesArray[i]);
@@ -123,12 +125,12 @@ ig.CollisionMap.inject({
 			for(j = 0; j < entities.length; j++) {
 				ignoreThisEntity = false;
 
-				// Check if it is excludes from the line of sight
+				// Check if this entity is excluded from the line of sight check
 				for(k = 0; k < ignoreEntityArray.length; k++) {
 					if(ignoreEntityArray[k].id == entities[j].id) ignoreThisEntity = true;
 				}
 
-				// Add the entity to the pixel collision map
+				// Erase  the entity to the pixel based collision map
 				if(!ignoreThisEntity) {
 					for(var los_y = 0; los_y < entities[j].size.y; los_y++) {
 						for(var los_x = 0; los_x < entities[j].size.x; los_x++) {
@@ -144,10 +146,12 @@ ig.CollisionMap.inject({
 
 	_traceLosStep: function(x0, y0, x1, y1) {
 		x0 = x0.floor();
-		x1 = x1.floor();
 		y0 = y0.floor();
+
+		x1 = x1.floor();
 		y1 = y1.floor();
 
+		// Bresenham's line algorithm
 		var dx = Math.abs(x1 - x0),
 			sx = x0 < x1 ? 1 : -1;
 		var dy = Math.abs(y1 - y0),
@@ -155,6 +159,10 @@ ig.CollisionMap.inject({
 		var err = (dx > dy ? dx : -dy) / 2;
 
 		while(true) {
+			if(y0 < 0 || y0 >= this.losHeight || x0 < 0 || x0 >= this.losWidth) {
+				return true;
+			}
+
 			if(this.losMap[y0][x0] != 0) {
 				return true;
 			}
@@ -179,4 +187,5 @@ ig.CollisionMap.inject({
 		return false;
 	}
 });
+
 });
