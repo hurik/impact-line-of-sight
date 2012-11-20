@@ -1,7 +1,7 @@
 # Impact Line of Sight
 
 ## Information
-This plugin for the [Impact Game Engine](http://impactjs.com/) adds line of sight to the collition map, which also can take entities in his calculations! I was trying to check the line of sight with the collision map trace function, but it is not working very well. So Tahts why i created this plugin.
+This plugin for the [Impact Game Engine](http://impactjs.com/) adds line of sight to the collition map, which also can take entities in his calculations! I was trying to check the line of sight with the collision map trace function, but it is not working very well. Thats why I created this plugin.
 
 
 ## Usage
@@ -79,6 +79,9 @@ That is how the pixel based collision map look like for the example.
 
 
 ## Changelog
+#### v0.3.1
+* Very little speedup (When there was an collision it doesn't check the other lines of sight!)
+
 ### v0.3.0
 * Adding and eraising of entities is now in a seperatet function
 * _traceLosStep renamed to _traceLosLine

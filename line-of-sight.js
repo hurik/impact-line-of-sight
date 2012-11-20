@@ -2,7 +2,7 @@
  * line-of-sight
  * https://github.com/hurik/impact-line-of-sight
  *
- * v0.3.0
+ * v0.3.1
  *
  * Andreas Giemza
  * andreas@giemza.net
@@ -82,16 +82,22 @@ ig.CollisionMap.inject({
 			ret = true;
 		}
 
-		if(this._traceLosStep(x + objectWidth, y, x + vx + objectWidth, y + vy)) {
-			ret = true;
+		if (!ret) {
+			if(this._traceLosStep(x + objectWidth, y, x + vx + objectWidth, y + vy)) {
+				ret = true;
+			}
 		}
 
-		if(this._traceLosStep(x, y + objectHeight, x + vx, y + vy + objectHeight)) {
-			ret = true;
+		if (!ret) {
+			if(this._traceLosStep(x, y + objectHeight, x + vx, y + vy + objectHeight)) {
+				ret = true;
+			}
 		}
 
-		if(this._traceLosStep(x + objectWidth, y + objectHeight, x + vx + objectWidth, y + vy + objectHeight)) {
-			ret = true;
+		if (!ret) {
+			if(this._traceLosStep(x + objectWidth, y + objectHeight, x + vx + objectWidth, y + vy + objectHeight)) {
+				ret = true;
+			}
 		}
 
 		// Erase the entity types from the pixel based collision map
