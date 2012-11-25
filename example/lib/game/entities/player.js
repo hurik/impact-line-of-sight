@@ -40,36 +40,65 @@ EntityPlayer = ig.Entity.extend({
 				this.ignoredObstacle = obstacles[c];
 			}
 		}
-	},
 
-	update: function() {
 		var dx = this.enemy.pos.x - this.pos.x;
 		var dy = this.enemy.pos.y - this.pos.y;
 
-		// check if there is a line of sight ...
 		this.enemyLos = ig.game.collisionMap.traceLos(this.pos.x + this.size.x / 2, this.pos.y + this.size.y / 2, dx, dy, 4, 4, ['EntityObstacle'], [this.ignoredObstacle]);
+	},
 
-		// Ignore this, it is only for the movement ...
+	update: function() {
+		// Check if there is a line of sight, but only when the position have changed ...
+		if(this.last.x != this.pos.x || this.last.y != this.pos.y) {
+			var dx = this.enemy.pos.x - this.pos.x;
+			var dy = this.enemy.pos.y - this.pos.y;
+
+			this.enemyLos = ig.game.collisionMap.traceLos(this.pos.x + this.size.x / 2, this.pos.y + this.size.y / 2, dx, dy, 4, 4, ['EntityObstacle'], [this.ignoredObstacle]);
+		}
+
+		if(ig.input.pressed('space')) {
+			var res = {
+				collision: false,
+				x: 0,
+				y: 0
+			};
+
+			var playerCenter = {
+				x: this.pos.x + this.size.x / 2,
+				y: this.pos.y + this.size.y / 2
+			};
+
+			var enemyCenter = {
+				x: this.enemy.pos.x + this.enemy.size.x / 2,
+				y: this.enemy.pos.y + this.enemy.size.y / 2
+			};
+
+			ig.game.collisionMap._addEraseEntityLos(0, ['EntityObstacle'], [this.ignoredObstacle]);
+
+			ig.game.collisionMap.traceLosDetailed(playerCenter, enemyCenter, res);
+
+			ig.game.collisionMap._addEraseEntityLos(1, ['EntityObstacle'], [this.ignoredObstacle]);
+
+			ig.log('res: {');
+			ig.log('\toccurred: ' + res.collision + ',');
+			ig.log('\tx: ' + res.x + ',');
+			ig.log('\ty: ' + res.y + '\n}');
+		}
+
+
 		if(ig.input.pressed('leftClick')) {
-			// Get the path
 			this.getPath(ig.input.mouse.x + ig.game.screen.x, ig.input.mouse.y + ig.game.screen.y, true, ['EntityObstacle']);
 		}
 
-		// Walk the path
 		this.followPath(this.speed, true);
-
-		// Update the animation
 		this.currentAnim.gotoFrame(this.headingDirection);
 
-		// Heading direction values
-		// 1 4 6
-		// 2 0 7
-		// 3 5 8
 		this.parent();
 	},
 
 	draw: function() {
 		if(!ig.global.wm) {
+			// When the line of sight is free draw a line to the target
 			if(!this.enemyLos) {
 				var mapTilesize = ig.game.collisionMap.tilesize;
 
@@ -86,12 +115,7 @@ EntityPlayer = ig.Entity.extend({
 				ig.system.context.stroke();
 				ig.system.context.closePath();
 			}
-		}
 
-		// Ignore this, it is only for the movement ...
-		// Attention this is important when you use the drawPath function or the entity doesn't show in weltmeister!
-		if(!ig.global.wm) {
-			// Draw the path ...
 			this.drawPath(0, 255, 33, 0.5);
 		}
 

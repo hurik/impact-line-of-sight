@@ -18,14 +18,6 @@ EntityObstacle = ig.Entity.extend({
 		this.addAnim('idle', 999999999999999999, [0]);
 
 		this.parent(x, y, settings);
-	},
-
-	update: function() {
-		this.parent();
-	},
-
-	draw: function() {
-		this.parent();
 	}
 });
 

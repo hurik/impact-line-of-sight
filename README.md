@@ -79,6 +79,9 @@ That is how the pixel based collision map look like for the example.
 
 
 ## Changelog
+### v0.4.0
+* Added traceLosDetailed, check the example how to use it (player.js)
+
 #### v0.3.1
 * Very little speedup (When there was an collision it doesn't check the other lines of sight!)
 

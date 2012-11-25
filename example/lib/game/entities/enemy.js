@@ -15,21 +15,9 @@ EntityEnemy = ig.Entity.extend({
 	animSheet: new ig.AnimationSheet('media/enemy.png', 8, 8),
 
 	init: function(x, y, settings) {
-		this.addAnim('idle', 5, [0]);
+		this.addAnim('idle', 999999999999999999, [0]);
 
 		this.parent(x, y, settings);
-	},
-
-	update: function() {
-		// Nothing to do ...
-
-		this.parent();
-	},
-
-	draw: function() {
-		// Nothing to do ...
-
-		this.parent();
 	}
 });
 

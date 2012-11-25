@@ -4,8 +4,8 @@ ig.module(
 .requires(
 	'impact.game',
 	
-	//'impact.debug.debug',
-	//'plugins.astar-for-entities-debug',
+	'impact.debug.debug',
+	'plugins.astar-for-entities-debug',
 	
 	'game.entities.player',
 	
@@ -24,6 +24,7 @@ MyGame = ig.Game.extend({
 
 	init: function() {
 		ig.input.bind(ig.KEY.MOUSE1, 'leftClick');
+		ig.input.bind(ig.KEY.SPACE, 'space');
 
 		this.loadLevel(LevelExample);
 	},
