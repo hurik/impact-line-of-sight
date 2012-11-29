@@ -79,30 +79,33 @@ That is how the pixel based collision map look like for the example.
 
 
 ## Changelog
-### v0.4.0
+##### v0.4.1
+* added vars in traceLosDetailed()
+
+#### v0.4.0
 * Added traceLosDetailed, check the example how to use it (player.js)
 
-#### v0.3.1
+##### v0.3.1
 * Very little speedup (When there was an collision it doesn't check the other lines of sight!)
 
-### v0.3.0
+#### v0.3.0
 * Adding and eraising of entities is now in a seperatet function
 * _traceLosStep renamed to _traceLosLine
 * _traceLosLine returns now the distance (Returns 0 when their was no collision and the distance when their was one, starting with 1!)
 * Example added
 
-#### v0.2.3
+##### v0.2.3
 * Fixed the error when the check was outside the map
 
-#### v0.2.2
+##### v0.2.2
 * Fixed bug with objectWidth and objectHeight
 
-#### v0.2.1
+##### v0.2.1
 * objectWidth and objectHeight can be null now, without error
 * Readme improved
 
-### v0.2.0
+#### v0.2.0
 * Doesn't copy the pixel collision map anymore, adds the entities and after the check it erases them
 
-### v0.1.0
+#### v0.1.0
 * First commit
