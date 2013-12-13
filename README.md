@@ -17,7 +17,7 @@ traceLos(x, y, vx, vy, objectWidth, objectHeight, entityTypesArray, ignoreEntity
 
 
 ## Live demo
-Check out: [http://www.hurik.de/impact-line-of-sight/](http://www.hurik.de/impact-line-of-sight/)
+Check out: [http://www.andreasgiemza.de/javascript/impact-line-of-sight/](http://www.andreasgiemza.de/javascript/impact-line-of-sight/)
 
 
 ## Example
@@ -31,7 +31,7 @@ weltmeister.html
 ```
 
 ### Example image
-![Example image](/hurik/impact-line-of-sight/raw/master/example.png)
+![Example image](https://raw.github.com/hurik/impact-line-of-sight/master/example.png)
 
 
 ## How it works
@@ -45,7 +45,7 @@ weltmeister.html
 * And retuns true when there was an collision and when not false.
 
 ### Example image for the line of sight checks
-![How it works](/hurik/impact-line-of-sight/raw/master/how-it-works.png)
+![How it works](https://raw.github.com/hurik/impact-line-of-sight/master/how-it-works.png)
 
 #### Color explanation
 * Green are soldiers (EntitySoldiers)
@@ -65,7 +65,7 @@ weltmeister.html
 ```
 
 ### The pixel based collision map
-![Pixel collision map](/hurik/impact-line-of-sight/raw/master/how-it-works-pixel-collision-map.png)
+![Pixel collision map](https://raw.github.com/hurik/impact-line-of-sight/master/how-it-works-pixel-collision-map.png)
 
 That is how the pixel based collision map look like for the example.
 
