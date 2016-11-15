@@ -17,7 +17,7 @@ traceLos(x, y, vx, vy, objectWidth, objectHeight, entityTypesArray, ignoreEntity
 
 
 ## Live demo
-Check out: [http://www.andreasgiemza.de/javascript/impact-line-of-sight/](http://www.andreasgiemza.de/javascript/impact-line-of-sight/)
+Check out: [http://www.andreasgiemza.de/programmieren/javascript/impact-line-of-sight](http://www.andreasgiemza.de/programmieren/javascript/impact-line-of-sight)
 
 
 ## Example
